@@ -1,0 +1,5 @@
+DATA:
+  dir: "Data"
+  positives: "positives"
+  negatives: "negatives"
+  backgrounds: "backgrounds"
