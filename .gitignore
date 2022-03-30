@@ -132,3 +132,5 @@ dmypy.json
 /Data/backgrounds
 /Data/negatives
 /Data/positives
+
+/Temp
