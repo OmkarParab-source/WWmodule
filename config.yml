@@ -1,11 +1,12 @@
-Data:
+Dirs:
   data_dir: "Data"
   backgrounds: "backgrounds"
   positives: "positives"
   negatives: "negatives"
   nn: "NeuralNet"
-
-Seed: 600031800
+  model_data_dir: "model_data"
+  training_data: "training_data.csv"
+  testing_data: "testing_data.csv"
 
 NeuralNet:
   sample_rate: 16000
@@ -15,8 +16,12 @@ NeuralNet:
   lr: 0.0001
   model_name: "wwmodel"
   save_checkpoint_path: "wwmodel"
-  train_data_csv: "files/train.csv"
-  test_data_csv: "files/test.csv"
-  no_cuda: False
+  train_data_csv: "model_data/training_data.csv"
+  test_data_csv: "model_data/testing_data.csv"
+  no_cuda: 0
   num_workers: 1
   hidden_size: 128
+
+Optimizer:
+  model_checkpoint: "checkpoints/wwmodel.pt"
+  save_path: "model/final_wwmodel.pt"

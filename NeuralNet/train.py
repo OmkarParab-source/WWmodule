@@ -148,9 +148,6 @@ def main(args):
     print("\nTest Report\n")
     print(best_test_report)
 
-def create_model(args):
-    main(args)
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Training Script")
     parser.add_argument('--sample_rate', type=int, default=16000, help='Sample rate')
