@@ -129,8 +129,16 @@ dmypy.json
 .pyre/
 
 # Voice Dataset
-/Data/backgrounds
-/Data/negatives
-/Data/positives
+/Data
 
+# Temporary Storage
 /Temp
+
+# Unit Tests
+testing.ipynb
+
+# Data
+*.csv
+
+# Models
+/NeuralNet/checkpoints
