@@ -102,15 +102,13 @@ class DataLoader(torch.utils.data.Dataset):
         
         try:
             file_path=self.data.path.iloc[idx]
-            waveform, sr = torchaudio.load(file_path)
-            if sr > self.sr:
-                waveform = torchaudio.transforms.Resample(sr, self.sr)(waveform)
+            waveform, sr = torchaudio.load(file_path, normalize=False)
             mfcc=self.audio_transform(waveform)
             label=self.data.label.iloc[idx]
         except Exception as e:
             print(str(e), file_path)
             return self.__getitem__(torch.randint(0, len(self), (1,)))
-
+        # print(file_path, waveform.shape)
         return mfcc, label
 
 
@@ -123,6 +121,6 @@ def combine_data(data):
         labels.append(label)
     
     mfccs = nn.utils.rnn.pad_sequence(mfccs, batch_first=True)
-    mfccs = mfccs.transpose(0,1)
+    mfccs = mfccs.transpose(0, 1)
     labels = torch.Tensor(labels)
     return mfccs, labels

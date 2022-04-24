@@ -31,6 +31,8 @@ model_data_dir = os.path.join(currdir, Dirs["nn"], Dirs["model_data_dir"])
 training_path = os.path.join(model_data_dir, "training_data.csv")
 testing_path = os.path.join(model_data_dir, "testing_data.csv")
 
+np.random.seed(6000318)
+
 def createData():
     paths = []
     labels = []
@@ -85,6 +87,8 @@ def createSamples(data):
                     pass
             else:
                 break
+        tempSample = tempSample.set_channels(1)
+        tempSample = tempSample.set_frame_rate(16000)
         tempSample.export(os.path.join(sampleDir, f"sample{sampleCount}.wav"), format="wav")
         chunks = make_chunks(tempSample, chunk_length=500)
         chunks = [x for i, x in enumerate(chunks)]
