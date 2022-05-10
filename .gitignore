@@ -128,8 +128,12 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# Audio Samples
+*.wav
+
 # Voice Dataset
-/Data
+/Data/samples
+/Data/chunks
 
 # Temporary Storage
 /Temp

@@ -38,46 +38,36 @@ def get_mfcc(sample_rate):
 
 class SpecAugment(nn.Module):
 
-    def __init__(self, rate, policy=3, freq_mask=2, time_mask=4):
+    def __init__(self, rate, f_mask=2, t_mask=4):
         
         super(SpecAugment, self).__init__()
         self.rate=rate
         
         self.specaug = nn.Sequential(
-            torchaudio.transforms.FrequencyMasking(freq_mask_param=freq_mask),
-            torchaudio.transforms.TimeMasking(time_mask_param=time_mask)
+            torchaudio.transforms.FrequencyMasking(freq_mask_param=f_mask),
+            torchaudio.transforms.TimeMasking(time_mask_param=t_mask)
         )
 
         self.specaug2 = nn.Sequential(
-            torchaudio.transforms.FrequencyMasking(freq_mask_param=freq_mask),
-            torchaudio.transforms.TimeMasking(time_mask_param=time_mask),
-            torchaudio.transforms.FrequencyMasking(freq_mask_param=freq_mask),
-            torchaudio.transforms.TimeMasking(time_mask_param=time_mask)
+            torchaudio.transforms.FrequencyMasking(freq_mask_param=f_mask),
+            torchaudio.transforms.TimeMasking(time_mask_param=t_mask),
+            torchaudio.transforms.FrequencyMasking(freq_mask_param=f_mask),
+            torchaudio.transforms.TimeMasking(time_mask_param=t_mask)
         )
 
-        policies = { 1: self.policy1, 2: self.policy2, 3: self.policy3 }
-        self._forward = policies[policy]
+        self._forward = self.mask
 
     def forward(self, x):
         return self._forward(x)
 
-    def policy1(self, x):
+    def mask(self, x):
         probability = torch.rand(1, 1).item()
-        if self.rate > probability:
-            return  self.specaug(x)
-        return x
-
-    def policy2(self, x):
-        probability = torch.rand(1, 1).item()
-        if self.rate > probability:
-            return  self.specaug2(x)
-        return x
-
-    def policy3(self, x):
-        probability = torch.rand(1, 1).item()
-        if probability > 0.5:
-            return self.policy1(x)
-        return self.policy2(x)
+        if probability > 0.66:
+            return self.specaug(x)
+        elif probability > 0.33:
+            return self.specaug2(x)
+        else:
+            return x
 
 
 class DataLoader(torch.utils.data.Dataset):
